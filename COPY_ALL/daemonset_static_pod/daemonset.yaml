@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: DaemonSet
+metadata:
+  name: my-daemonset
+spec:
+  selector:
+    matchLabels:
+      app: my-daemonset
+  template:
+    metadata:
+      app: my-daemonset
+  spec:
+    containers:
+    - name: nginx
+      image: nginx:1.19.1
+
+---
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  creationTimestamp: null
+  labels:
+    id: ds-important
+  name: ds-important
+  namespace: project-tiger
+spec:
+  selector:
+    matchLabels:
+      id: ds-important
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        id: ds-important
+    spec:
+      containers:
+        - image: httpd:2.4-alpine
+          name: ds-important
+          resources:
+            requests:
+              cpu: 10m
+              memory: 10Mi
+      tolerations:
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/master

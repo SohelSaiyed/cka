@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: named-port-service
+spec:
+  # default service is cluster-ip if not specified.
+  type: ClusterIP
+  selector:
+    app: <pod-label-to-attach>
+  ports:
+    # port is name instead of number
+    - name: web
+      protocol: TCP
+      port: 80
+      targetPort: 8080

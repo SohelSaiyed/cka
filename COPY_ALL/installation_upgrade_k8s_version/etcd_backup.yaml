@@ -1,0 +1,49 @@
+# take snap shot of etcd filename: snapshotdb
+#ETCDCTL_API=3 etcdctl --endpoints $ENDPOINT snapshot save <filename>
+ETCDCTL_API=3 etcdctl --endpoints $ENDPOINT snapshot save snapshotdb
+
+#Verify the snapshot:
+ETCDCTL_API=3 etcdctl --write-out=table snapshot status snapshotdb
+
+# restoring form snapshot
+ETCDCTL_API=3 etcdctl snapshot restore <filename>
+
+
+----
+# Get server name to verify at the end
+ETCDCTL_API=3 etcdctl get cluster.name \
+--endpoints=https://10.0.1.101:2379 \
+--cacert=/home/cloud_user/etcd-certs/etcd-ca.pem \
+--cert=/home/cloud_user/etcd-certs/etcd-server.crt \
+--key=/home/cloud_user/etcd-certs/etcd-server.key
+
+# take snapshot only change is in the first line
+ETCDCTL_API=3 etcdctl snapshot save /home/cloud_user/etcd_backup.db \
+--endpoints=https://10.0.1.101:2379 \
+--cacert=/home/cloud_user/etcd-certs/etcd-ca.pem \
+--cert=/home/cloud_user/etcd-certs/etcd-server.crt \
+--key=/home/cloud_user/etcd-certs/etcd-server.key
+
+# Reset etcd by removing all existing etcd data:
+sudo systemctl stop etcd
+sudo rm -rf /var/lib/etcd
+
+# restore the backup
+sudo ETCDCTL_API=3 etcdctl snapshot restore /home/cloud_user/etcd_backup.db \
+--initial-cluster etcd-restore=https://10.0.1.101:2380 \
+--initial-advertise-peer-urls https://10.0.1.101:2380 \
+--name etcd-restore \
+--data-dir /var/lib/etcd
+
+#Set ownership on the new data directory
+sudo chown -R etcd:etcd /var/lib/etcd
+
+# start etcd
+sudo systemctl start etcd
+
+# verify
+ETCDCTL_API=3 etcdctl get cluster.name \
+--endpoints=https://10.0.1.101:2379 \
+--cacert=/home/cloud_user/etcd-certs/etcd-ca.pem \
+--cert=/home/cloud_user/etcd-certs/etcd-server.crt \
+--key=/home/cloud_user/etcd-certs/etcd-server.key

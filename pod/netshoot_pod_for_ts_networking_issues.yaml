@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: netshoot
+spec:
+  containers:
+    - name: netshoot
+      image: nicolaka/netshoot
+      command: ['sh', '-c', 'while true; do sleep 5; done']
+
+
+#exec in the pod and can run commands like
+# nslookup <service_name> - gives the fully qualified DNS name
+# curl <service_name>
+# ping <service_name>

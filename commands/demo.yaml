@@ -1,0 +1,69 @@
+
+Final:
+
+#Monitoring:
+  kubectl top pods
+  kubectl top nodes
+
+  kubectl get events
+
+  1. scale - kubectl edit , but recommend to record the command if changing image  --record
+
+  ####	kubectl scale deployment/my-app -n my-app --replicas=5
+
+  kubectl edit deployment my-app -n my-app
+
+  kubectl get rs -n my-app -w
+  kubectl get po -n my-app -w
+
+  kubectl set image deployment/my-app -n my-app my-app=sohelsaiyed/my-app:14.0 --record=true
+
+  2. #undo changes  -
+
+  histroy - kubectl rollout history deployment/my-app -n my-app
+
+  check rollout - kubectl rollout history deployment/my-app -n my-app --revision=5
+
+  status rollout - kubectl rollout status deployment/nginx-deployment
+
+  undo changes - kubectl rollout history deployment/my-app -n my-app --to-revision=2
+
+  kubectl set image deployment/my-app -n my-app my-app=sohelsaiyed/my-app:14.0 --record=true
+
+  3.
+  #nodeselector:
+
+  #show lables
+  kubectl get nodes --show-labels
+
+  kubectl edit node docker-desktop
+
+  4. get pod & deployment yaml
+
+  kubectl get pod busybox2 -o yaml > test.yaml
+
+5.
+#debug:
+
+  kubectl exec -i busybox1 -- cat /etc/hosts
+
+  kubectl exec -i --tty busybox1 -- sh
+
+  curl from one pod to other- flat network can check
+  kubectl exec -i busybox1 -- curl 10.1.1.136
+
+  6.
+  #port-forward ::::
+  kubectl port-forward nodeselector-pod 3333:80
+
+
+  kubectl run -i --tty busybox --image=radial/busyboxplus:curl -- sh
+
+
+
+  curl localhost:3333
+
+
+  fetch pods::
+
+  kubectl get pods --selector=app=web-frontend

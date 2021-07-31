@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: write-out
+  name: write-out
+spec:
+  containers:
+    - image: busybox
+      command: ['sh', '-c', 'while true; do echo Success! >> /output/output.txt; sleep 5; done']
+      name: write-out
+      resources: {}
+      volumeMounts:
+        - mountPath: /output
+          name: output-volume
+  volumes:
+    - name: output-volume
+      hostPath:
+        # directory location on host
+        path: /var/data
+        # this field is optional
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}

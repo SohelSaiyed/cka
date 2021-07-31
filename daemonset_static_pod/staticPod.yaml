@@ -1,0 +1,29 @@
+# static pod are manifest file stored at default location at: /etc/kubernetes/mainfests/<filename>
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mystatic-pod
+spec:
+  containers:
+    - name: nginx
+      image: nginx:1.19.1
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: static-web
+  labels:
+    role: myrole
+spec:
+  containers:
+    - name: web
+      image: nginx
+      ports:
+        - name: web
+          containerPort: 80
+          protocol: TCP

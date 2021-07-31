@@ -1,0 +1,9 @@
+
+
+
+spec:
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              app: db

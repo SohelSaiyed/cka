@@ -1,0 +1,10 @@
+
+
+
+spec:
+  ingress:
+    - from:
+      ports:
+        - protocol: TCP
+          # port specifies one or more ports that will allow traffic
+          port: 80

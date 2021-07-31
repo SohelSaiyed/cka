@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    env: test
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      imagePullPolicy: IfNotPresent
+  tolerations:
+    - key: "node-role.kubernetes.io/master"
+      operator: "Exists"
+      effect: "NoSchedule"
+      tolerationSeconds: 3600
+
+
+# taint on unstaduable node to not schedule on node:
+#node:kubernetes:io/unschedulable:NoSchedule
+#Taints:             node.kubernetes.io/unschedulable:NoSchedule
+#Unschedulable:      true

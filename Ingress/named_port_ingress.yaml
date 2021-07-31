@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: named-port-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /somepath
+            pathType: Prefix
+            backend:
+              service:
+                name: named-port-service
+                port:
+                  # port is name instead of number, which point to named port service
+                  name: web

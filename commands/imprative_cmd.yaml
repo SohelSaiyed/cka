@@ -1,0 +1,80 @@
+# Run busybox pod with curl command in interactive shell
+kubectl run -i --tty busybox --image=radial/busyboxplus:curl -- sh
+kubectl run -i --tty busybox --image=yauritux/busybox-curl -- sh
+
+  # create secret from file
+kubectl create secret generic nginx-htpasswd --from-file .htpasswd
+
+# create secrets from literal
+kubectl -n secret create secret generic secret2 --from-literal=user=user1 --from-literal=pass=1234
+
+#exec busybox with command:
+kubectl exec busybox -- curl -u user:<PASSWORD> <NGINX_POD_IP>
+
+# kubectl set image of deployment with record flag to record cmd which change the update deployment
+kubectl set image deployment/<deploymentName> <image>:<tag> --record
+
+# to check the histroy of rollout after the previous command recorded the cmd
+kubectl rollout history deployment/<deploymentName>
+
+# to rollback the deployment to previous version after rollout was unsuccessful
+kubectl rollout undo deployment/<deploymentName> --to-revision=<number>
+
+# to scale the deployment
+kubectl scale deployment/<deploymentName> --replicas=<number>
+
+# Calico Network policy full pacakage with all RBAC
+kubectl apply -f https://docs.projectcalico.org/v3.14/manifests/calico.yaml
+
+#to get help for creating any service
+kubectl create service clusterip -h
+kubectl create service nodeport -h
+
+# To create nodeport service, matchlabel is for aap=<pod-match-label>
+kubectl create service nodeport <pod-match-label> --tcp=80:80
+
+# To create clusterip service, matchlabel is for aap=<pod-match-label>
+kubectl create service clusterip user-db --tcp=80:80
+
+# Search pod by labels selector
+kubectl get pods --selector=app=web-frontend
+
+# expose service to nodePort
+
+# expose service to clusterip
+
+# create ingress
+
+# create service account in namespace
+kubectl create sa webautomation -n web
+
+# label node
+kubectl label nodes <nodeName> disk=fast
+
+
+# get node labels
+kubectl get nodes --selector=nodename=demo
+
+#DNS for service
+<service-name>.<namespace-name>.svc.<cluster-domain.example>
+Note: default cluster domain is `cluster.local`
+e.g: my-service.my-namespace.svc.cluster.local
+
+# pod DNS address
+<pod-ip-address>.<namespace-name>.pod.cluster.local
+e.g: 192-168-10-100.default.pod.cluster.local
+
+# kubectl auth can-i
+k auth can-i -h
+k auth can-i get pods/logs  --as=system:serviceaccount:<namespace>:<sa-name>
+
+k auth can-i get pods -n=dev --as=system:serviceaccount:dev:default
+
+k -n <namespace> auth can-i create configmap --as system:serviceaccount:<namespace>:<processor>
+
+#verify the auth with sa in namespace:
+kubectl get pods -n <namespace> --as=system:serviceaccount:<namespace>:<serviceAccountName>
+  kubectl get pods -n web --as=system:serviceaccount:web:webautomation
+
+#namespaced resources
+kubectl api-resources --namespaced=true
