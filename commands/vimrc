@@ -1,8 +1,8 @@
-set pastetoggle=<F2>
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
 set expandtab
 set ruler
 set visualbell
+set pastetoggle=<F2>
 

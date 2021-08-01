@@ -11,9 +11,9 @@ complete -o default -F __start_kubectl k
 #or
 complete -F __start_kubectl k
 
-function kns() {
-  kubectl config set-context --current --namespace="$1"
-}
+#function kns() {
+#  kubectl config set-context --current --namespace="$1"
+#}
 
 alias k=kubectl
 alias kcd="kubectl create deployment"
