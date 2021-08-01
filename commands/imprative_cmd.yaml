@@ -44,8 +44,13 @@ kubectl create service clusterip user-db --tcp=80:80
 kubectl get pods --selector=app=web-frontend
 
 # expose service to nodePort
+  k expose pod <podname/deploymentname> \
+  --name <svcname> \
+  --type=NodePort \
+  --port 80
 
 # expose service to clusterip
+k expose deployment/<deployname> --port
 
 # create ingress
 
@@ -84,3 +89,14 @@ kubectl get pods -n <namespace> --as=system:serviceaccount:<namespace>:<serviceA
 
 #namespaced resources
 kubectl api-resources --namespaced=true
+
+# static pod
+  kubectl run my-static-pod \ --image=nginx:1.16-alpine \
+  --requests "cpu=10m,memory=20Mi" \
+  -o yaml --dry-run=client > my-static-pod.yaml
+
+# expose service
+  k expose pod my-static-pod-cluster3-master1 \
+  --name static-pod-service \
+  --type=NodePort \
+  --port 80
