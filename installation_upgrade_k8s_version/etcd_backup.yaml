@@ -9,31 +9,52 @@ ETCDCTL_API=3 etcdctl --write-out=table snapshot status snapshotdb
 ETCDCTL_API=3 etcdctl snapshot restore <filename>
 
 
-----
+---- starts here ----------
+help: ETCDCTL_API=3 etcdctl help
+
 # Get server name to verify at the end
-ETCDCTL_API=3 etcdctl get cluster.name \
---endpoints=https://10.0.1.101:2379 \
---cacert=/home/cloud_user/etcd-certs/etcd-ca.pem \
---cert=/home/cloud_user/etcd-certs/etcd-server.crt \
---key=/home/cloud_user/etcd-certs/etcd-server.key
+
+  ETCDCTL_API=3 etcdctl --endpoints 127.0.0.1:2379 \
+  --cert=/etc/kubernetes/pki/etcd/server.crt \
+  --key=/etc/kubernetes/pki/etcd/server.key \
+  --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+  member list
 
 # take snapshot only change is in the first line
-ETCDCTL_API=3 etcdctl snapshot save /home/cloud_user/etcd_backup.db \
---endpoints=https://10.0.1.101:2379 \
---cacert=/home/cloud_user/etcd-certs/etcd-ca.pem \
---cert=/home/cloud_user/etcd-certs/etcd-server.crt \
---key=/home/cloud_user/etcd-certs/etcd-server.key
+
+  ETCDCTL_API=3 etcdctl --endpoints https://127.0.0.1:2379 \
+  --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+  --cert=/etc/kubernetes/pki/etcd/server.crt \
+  --key=/etc/kubernetes/pki/etcd/server.key \
+  snapshot save /tmp/snapshot-pre-boot.db
+
+#ETCDCTL_API=3 etcdctl snapshot save /home/cloud_user/etcd_backup.db \
+#--endpoints=https://10.0.1.101:2379 \
+#--cacert=/home/cloud_user/etcd-certs/etcd-ca.pem \
+#--cert=/home/cloud_user/etcd-certs/etcd-server.crt \
+#--key=/home/cloud_user/etcd-certs/etcd-server.key
 
 # Reset etcd by removing all existing etcd data:
 sudo systemctl stop etcd
 sudo rm -rf /var/lib/etcd
 
 # restore the backup
-sudo ETCDCTL_API=3 etcdctl snapshot restore /home/cloud_user/etcd_backup.db \
---initial-cluster etcd-restore=https://10.0.1.101:2380 \
---initial-advertise-peer-urls https://10.0.1.101:2380 \
---name etcd-restore \
---data-dir /var/lib/etcd
+  ETCDCTL_API=3 etcdctl --endpoints=https://127.0.0.1:2379 \
+  --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+  --cert=/etc/kubernetes/pki/etcd/server.crt \
+  --key=/etc/kubernetes/pki/etcd/server.key \
+  --data-dir /var/lib/etcd-from-backup \
+  snapshot restore /tmp/snapshot-pre-boot.db
+
+or shot command::::
+  ETCDCTL_API=3 etcdctl snapshot restore /tmp/etcd-backup.db --data-dir  /var/lib/etcd-backup
+
+#sudo ETCDCTL_API=3 etcdctl snapshot restore /home/cloud_user/etcd_backup.db \
+#--initial-cluster etcd-restore=https://10.0.1.101:2380 \
+#--initial-advertise-peer-urls https://10.0.1.101:2380 \
+#--name etcd-restore \
+#--data-dir /var/lib/etcd
+
 
 #Set ownership on the new data directory
 sudo chown -R etcd:etcd /var/lib/etcd
@@ -42,8 +63,15 @@ sudo chown -R etcd:etcd /var/lib/etcd
 sudo systemctl start etcd
 
 # verify
-ETCDCTL_API=3 etcdctl get cluster.name \
---endpoints=https://10.0.1.101:2379 \
---cacert=/home/cloud_user/etcd-certs/etcd-ca.pem \
---cert=/home/cloud_user/etcd-certs/etcd-server.crt \
---key=/home/cloud_user/etcd-certs/etcd-server.key
+
+  ETCDCTL_API=3 etcdctl --endpoints 127.0.0.1:2379 \
+  --cert=/etc/kubernetes/pki/etcd/server.crt \
+  --key=/etc/kubernetes/pki/etcd/server.key \
+  --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+  member list
+
+#ETCDCTL_API=3 etcdctl get cluster.name \
+#--endpoints=https://10.0.1.101:2379 \
+#--cacert=/home/cloud_user/etcd-certs/etcd-ca.pem \
+#--cert=/home/cloud_user/etcd-certs/etcd-server.crt \
+#--key=/home/cloud_user/etcd-certs/etcd-server.key

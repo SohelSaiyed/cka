@@ -14,7 +14,8 @@ kubectl apply -f https://docs.projectcalico.org/v3.14/manifests/calico.yaml
 #Unschedulable:      true
 
 sudo journalctl -u kubelet
+ps aux | grep kubelet
 
-#reload
+  #reload
 systemctl daemon-reload
 whereis kubelet

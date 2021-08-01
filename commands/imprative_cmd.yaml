@@ -1,4 +1,8 @@
-# Run busybox pod with curl command in interactive shell
+sudo apt-get install bash-completion
+tmux new -s <sessionName>
+tmux attach -t <sessionName>
+
+  # Run busybox pod with curl command in interactive shell
 kubectl run -i --tty busybox --image=radial/busyboxplus:curl -- sh
 kubectl run -i --tty busybox --image=yauritux/busybox-curl -- sh
 
@@ -51,6 +55,8 @@ kubectl create sa webautomation -n web
 # label node
 kubectl label nodes <nodeName> disk=fast
 
+# top po with container:
+kubectl top pod --containers=true
 
 # get node labels
 kubectl get nodes --selector=nodename=demo
