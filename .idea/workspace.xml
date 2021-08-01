@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9dfc8570-2878-43b1-a4b0-b95c1a6a60a4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/pod/static_pod.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/deployment/configM_secret_volume.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pod/full_pod_secret_mount.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/imprative_cmd.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/commands/imprative_cmd.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RBAC/clusterRole.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/RBAC/clusterRole.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RBAC/clusterrole_binding.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/RBAC/clusterrole_binding.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
