@@ -1,0 +1,16 @@
+# Get all node names with taints:
+kubectl get nodes -o json | jq ".items[]|{name:.metadata.name, taints:.spec.taints}"
+or
+kubectl get nodes -o custom-columns=NAME:.metadata.name,TAINTS:.spec.taints
+
+# Get pod by sorting creationtime
+kubectl get pods --sort-by=.metadata.creationTimestamp
+
+# No headers and count the output
+--no-headers | wc -l
+
+# Get pod via selector
+kubectl get pods --selector app=App1
+
+# get PV with sort storage
+kubectl get pv -n kube-system --sort-by=.spec.capacity.storage

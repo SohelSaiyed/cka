@@ -1,0 +1,24 @@
+# metric server deployment
+kubectl apply -f https://raw.githubusercontent.com/linuxacademy/content-cka-resources/master/metrics-server-components.yaml
+
+
+# status of kubelet
+systemctl status kubelet
+
+# start stopped kubelet service
+systemctl start kubelet
+
+#enabling kubelet
+systemctl enable kubelet
+
+# check docker status on system
+
+
+
+
+#stoping kubelet
+sudo systemctl stop kubelet
+
+#disabeling kublet
+sudo systemctl disable kubelet
+

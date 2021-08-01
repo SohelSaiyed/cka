@@ -1,0 +1,21 @@
+# Drain node to make is unavailable and remove all running pods to schedule on other node
+kubectl drain <node_name> --ignore-daemonsets #optional `--force` to remove any pod running without deployment
+
+# To make node available again for pod to schedule on that node, so uncordon the node
+kubectl uncordon <node_name>
+
+# install CNI plugin for calico
+kubectl apply -f https://docs.projectcalico.org/v3.14/manifests/calico.yaml
+
+# drain add unschedulable taint
+# taint on unstaduable node to not schedule on node:
+#node:kubernetes:io/unschedulable:NoSchedule
+#Taints:             node.kubernetes.io/unschedulable:NoSchedule
+#Unschedulable:      true
+
+sudo journalctl -u kubelet
+ps aux | grep kubelet
+
+  #reload
+systemctl daemon-reload
+whereis kubelet
